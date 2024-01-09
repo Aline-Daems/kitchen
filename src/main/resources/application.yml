@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kitchen
+    username: postgres
+    password: Morrigan551!
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+       ddl-auto: create
+    properties:
+      hibernate:
+          format_sql: true

@@ -25,16 +25,27 @@ public class Author implements UserDetails {
     private String password;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + name));
-
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + name));
+//
+//    }
 
     @Override
     public String getUsername() {
         return login;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {

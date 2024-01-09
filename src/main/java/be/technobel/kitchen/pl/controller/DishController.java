@@ -6,6 +6,7 @@ import be.technobel.kitchen.pl.dtos.DishDTO;
 import be.technobel.kitchen.pl.dtos.RecipeDTO;
 import be.technobel.kitchen.pl.forms.DishForm;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,24 +20,25 @@ public class DishController {
     public DishController(DishService dishService) {
         this.dishService = dishService;
     }
-
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/create")
     public void createDish(@RequestBody DishForm form){
         dishService.create(form);
 
     }
+    @PreAuthorize("isAnonymous()")
     @PutMapping("/update/{name}")
     public void updateDish(@PathVariable String name, @RequestBody DishForm form){
         dishService.update(name, form);
     }
-
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/{name}")
     public ResponseEntity<DishDTO> getOne(@PathVariable String name){
         Dish dish = dishService.getOne(name);
 
         return ResponseEntity.ok(DishDTO.fromEntity(dish));
     }
-
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/all")
     public ResponseEntity<List<DishDTO>> getAll(){
 
@@ -46,7 +48,7 @@ public class DishController {
 
         return  ResponseEntity.ok(dtos);
     }
-
+    @PreAuthorize("isAnonymous()")
     @DeleteMapping("/delete/{name}")
     public void delete (@PathVariable String name) {
         dishService.delete(name);

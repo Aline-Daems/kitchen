@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,36 +31,35 @@ public class JWTProvider {
     private static final String Auth_HEADER = "Authorization";
 
     // Type
+    private static final String TOKEN_PREFIX = "Bearer ";
 
-    private  static final  String TOKEN_PREFIX = "Bearer ";
+    private final UserDetailsService userDetailsService;
 
-    private  final UserDetailsService userDetailsService;
     public JWTProvider(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
-    public String generateToken(String username, Author author){
+    public String generateToken(String username, Author author) {
         return TOKEN_PREFIX + JWT.create()
                 .withSubject(username)
                 .withClaim("authors", author.getName())
                 .withExpiresAt(Instant.now().plusMillis(EXPIRES_AT))
-                .sign(Algorithm.HMAC512(JWT_SECRET))
-                System.out.println("Token généré avec succès: ");
+                .sign(Algorithm.HMAC512(JWT_SECRET));
 
     }
 
     public String extractToken(HttpServletRequest request) {
         String header = request.getHeader(Auth_HEADER);
 
-        if(header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             return null;
         }
         return header.replaceFirst(TOKEN_PREFIX, "");
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
 
-        try{
+        try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC512(JWT_SECRET))
                     .acceptExpiresAt(EXPIRES_AT)
                     .withClaimPresence("sub")
@@ -67,16 +67,19 @@ public class JWTProvider {
                     .build().verify(token);
 
             String username = jwt.getSubject();
-            Author author = (Author) userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                Author author = (Author) userDetails;
+
 
             return true;
-        }catch (JWTVerificationException | UsernameNotFoundException ex) {
+        } catch (JWTVerificationException | UsernameNotFoundException ex) {
             return false;
         }
 
     }
 
-    public Authentication createAuthentification(String token){
+    public Authentication createAuthentification(String token) {
         DecodedJWT jwt = JWT.decode(token);
         String username = jwt.getSubject();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);

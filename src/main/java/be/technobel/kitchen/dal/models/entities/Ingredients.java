@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class Ingredients {
     @Id
-    private String ingredientName;
+    private String name;
     private String measure;
 
     @OneToMany(mappedBy = "ingredients")

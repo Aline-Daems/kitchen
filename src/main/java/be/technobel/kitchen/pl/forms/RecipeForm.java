@@ -8,8 +8,6 @@ import lombok.Data;
 
 public record RecipeForm(
         String instructions,
-
-
         Long author
 ) {
 }

@@ -24,7 +24,7 @@ public class IngredientsServciceImpl implements IngredientService {
 
         Ingredients ingredients = new Ingredients();
 
-        ingredients.setIngredientName(form.ingredientName());
+        ingredients.setName(form.ingredientName());
         ingredients.setMeasure(form.measure());
 
         ingredientRepository.save(ingredients);
@@ -37,7 +37,7 @@ public class IngredientsServciceImpl implements IngredientService {
         }
 
         Ingredients ingredients = ingredientRepository.findByName(name);
-        ingredients.setIngredientName(form.ingredientName());
+        ingredients.setName(form.ingredientName());
         ingredients.setMeasure(form.measure());
 
         ingredientRepository.save(ingredients);

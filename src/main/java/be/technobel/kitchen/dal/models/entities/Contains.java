@@ -3,8 +3,6 @@ package be.technobel.kitchen.dal.models.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.swing.*;
-
 @Entity
 @Data
 public class Contains {
@@ -19,6 +17,6 @@ public class Contains {
     private Recipe recipe;
 
     @ManyToOne
-    @JoinColumn(name="IngredientName")
+    @JoinColumn(name="name")
     private Ingredients ingredients;
 }

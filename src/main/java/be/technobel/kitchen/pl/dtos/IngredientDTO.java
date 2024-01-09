@@ -10,7 +10,7 @@ public record IngredientDTO(
 
     public static IngredientDTO fromEntity(Ingredients ingredients) {
 
-        return new IngredientDTO(ingredients.getIngredientName(), ingredients.getMeasure());
+        return new IngredientDTO(ingredients.getName(), ingredients.getMeasure());
     }
 
 }

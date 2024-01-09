@@ -3,6 +3,7 @@ package be.technobel.kitchen.pl.controller;
 import be.technobel.kitchen.bl.services.RecipeService;
 import be.technobel.kitchen.dal.models.entities.Recipe;
 import be.technobel.kitchen.pl.dtos.RecipeDTO;
+import be.technobel.kitchen.pl.forms.QuantityForm;
 import be.technobel.kitchen.pl.forms.RecipeForm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +48,10 @@ public class RecipeController {
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id){
         recipeService.delete(id);
+    }
+
+    @PostMapping("/addQuantity/{id}/{ingredientName}")
+    public void addQuantity(@PathVariable Long id, String ingredientName, @RequestBody QuantityForm form) {
+            recipeService.addQuantity(id, ingredientName, form);
     }
 }

@@ -2,6 +2,7 @@ package be.technobel.kitchen.pl.controller;
 
 import be.technobel.kitchen.bl.services.AuthorService;
 import be.technobel.kitchen.dal.models.entities.Author;
+import be.technobel.kitchen.pl.dtos.AuthDTO;
 import be.technobel.kitchen.pl.dtos.AuthorDTO;
 import be.technobel.kitchen.pl.forms.AuthorForm;
 import be.technobel.kitchen.pl.forms.LoginForm;
@@ -53,9 +54,11 @@ public class AuthorController {
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/login")
-    public void login (@RequestBody LoginForm form){
+    public AuthDTO login (@RequestBody LoginForm form){
 
-        authorService.login(form);
+        return  authorService.login(form);
+
+
     }
 
 

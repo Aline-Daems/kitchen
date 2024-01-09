@@ -4,10 +4,8 @@ import be.technobel.kitchen.dal.models.entities.Author;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,10 +37,10 @@ public class JWTProvider {
         this.userDetailsService = userDetailsService;
     }
 
-    public String generateToken(String username, Author author) {
+    public String generateToken(String username) {
         return TOKEN_PREFIX + JWT.create()
                 .withSubject(username)
-                .withClaim("authors", author.getName())
+                .withClaim("authors", username)
                 .withExpiresAt(Instant.now().plusMillis(EXPIRES_AT))
                 .sign(Algorithm.HMAC512(JWT_SECRET));
 

@@ -41,7 +41,9 @@ public class AuthorServiceImpl implements AuthorService {
         author.setName(form.name());
         author.setLastname(form.lastname());
         author.setLogin(form.login());
-        author.setPassword(passwordEncoder.encode(form.password()));
+        author.setPassword(passwordEncoder.encode(form.password())
+
+                );
 
         authorRepository.save(author);
 
@@ -59,6 +61,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setLogin(form.login());
         author.setPassword(form.password());
         authorRepository.save(author);
+
 
     }
 
@@ -85,7 +88,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         Author author = authorRepository.findByLogin(form.getLogin()).get();
 
-        String token = jwtProvider.generateToken(author.getUsername(), author);
+        String token = jwtProvider.generateToken(author.getUsername());
 
         return AuthDTO.builder()
                 .token(token)

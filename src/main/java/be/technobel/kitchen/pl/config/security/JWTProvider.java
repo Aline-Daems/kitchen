@@ -61,14 +61,13 @@ public class JWTProvider {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC512(JWT_SECRET))
                     .acceptExpiresAt(EXPIRES_AT)
                     .withClaimPresence("sub")
-                    .withClaimPresence("author")
                     .build().verify(token);
 
             String username = jwt.getSubject();
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            Author author = (Author) userDetailsService.loadUserByUsername(username);
 
-                Author author = (Author) userDetails;
-
+            if(!author.isEnabled())
+                return false;
 
             return true;
         } catch (JWTVerificationException | UsernameNotFoundException ex) {
